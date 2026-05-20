@@ -32,25 +32,6 @@ git commit -m "#24 Fix: JWT 토큰 검증 오류 수정"
 
 * `main` : 최종 배포 브랜치
 * `develop` : 개발 통합 브랜치
-* `feat` : 기능 개발 브랜치
-* `fix` : 버그 수정 브랜치
-* `refactor` : 리팩토링 브랜치
-
-### Branch Naming
-
-```bash
-feat/#이슈번호-기능명
-fix/#이슈번호-수정내용
-```
-
-### Example
-
-```bash
-feat/#15-login-api
-fix/#21-token-error
-```
-
----
 
 # Branch Strategy
 
