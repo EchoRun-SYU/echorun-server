@@ -14,14 +14,14 @@
 ### Commit Message
 
 ```bash
-git commit -m "#이슈번호 태그: 작업 내용"
+git commit -m "작업 내용"
 ```
 
 ### Example
 
 ```bash
-git commit -m "#12 Feat: 로그인 API 구현"
-git commit -m "#24 Fix: JWT 토큰 검증 오류 수정"
+git commit -m "#feat: 로그인 API 구현"
+git commit -m "#fix: JWT 토큰 검증 오류 수정"
 ```
 
 ---
@@ -39,25 +39,6 @@ git commit -m "#24 Fix: JWT 토큰 검증 오류 수정"
 
 * `main` 브랜치는 배포 시에만 사용합니다.
 * 모든 개발은 `develop` 브랜치에서 통합합니다.
-* 기능 개발은 각자의 `feat` 브랜치에서 진행합니다.
+* 기능 개발은 각자의 이름 브랜치에서 진행합니다.
 * 작업 완료 후 Pull Request를 통해 `develop` 브랜치에 merge 합니다.
-* merge 완료 후 브랜치는 삭제합니다.
-
----
-
-# Issue Convention
-
-## 🔵 Issue Type
-
-* `[Feat]` : 기능 추가
-* `[Fix]` : 버그 수정
-* `[Refactor]` : 리팩토링
-* `[Docs]` : 문서 작업
-* `[Chore]` : 기타 작업
-
-### Issue Title Example
-
-```bash
-[Feat] 로그인 API 구현
-[Fix] 회원가입 예외 처리 수정
-```
+(PR을 올려둔 뒤 팀원들과 충돌 여부를 말로 확인하고 merge 합니다.)
