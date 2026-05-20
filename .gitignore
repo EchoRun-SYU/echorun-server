@@ -22,3 +22,17 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Gradle 빌드 결과물 및 캐시 차단
+.gradle/
+build/
+out/
+
+# 인텔리제이 개인 설정 폴더 차단
+.idea/
+*.iml
+*.iws
+
+# OS 시스템 쓰레기 파일 차단
+.DS_Store
+Thumbs.db
