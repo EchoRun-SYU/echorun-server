@@ -36,7 +36,7 @@ public class Record {
         this.isCompleted = false;
     }
 
-    // Record.java 내부에 추가할 종료 메서드
+    // 종료 메서드
     public void completeRun(Double distance, Integer duration) {
         this.distance = distance;
         this.duration = duration;

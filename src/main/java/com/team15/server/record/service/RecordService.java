@@ -35,7 +35,7 @@ public class RecordService {
         Record record = recordRepository.findById(runId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 러닝 기록입니다."));
 
-        // 2. 만약 이미 종료된 러닝이라면 예외 처리 (선택)
+        // 2. 만약 이미 종료된 러닝이라면 예외 처리
         if (record.getIsCompleted()) {
             throw new IllegalStateException("이미 종료된 러닝 기록입니다.");
         }

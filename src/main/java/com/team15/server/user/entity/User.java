@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "users") // SQL 예약어 'user'와 겹치지 않도록 테이블 이름은 users로 지정합니다.
+@Table(name = "users") // SQL 예약어 'user'와 겹치지 않도록 테이블 이름은 users로 지정
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -21,7 +21,6 @@ public class User {
     @Column(nullable = false)
     private String name;  // 구글 프로필 이름
 
-    // 💡 해커톤 에코런(EchoRun) 특화 서비스 필드 추가!
     @Column(nullable = false)
     private int totalPoint; // 유저가 플로깅해서 얻은 총 점수 (초기값 0)
 

@@ -48,7 +48,7 @@ springdoc:
     info:
       title: "EchoRun API 명세서"
       version: "v1.0"
-      description: "### 🔐 소셜 로그인 및 인증 연동 가이드\n\n1. **구글 로그인 요청 (기능 1)**\n   - 프론트엔드에서 사용자가 구글 로그인 버튼을 누르면 다음 주소로 브라우저 창을 이동(Redirect) 시켜주세요.\n   - URL: `GET http://localhost:8080/oauth2/authorization/google`\n\n2. **로그인 성공 리다이렉트 및 JWT 발급 (기능 2)**\n   - 구글 인증이 완료되면 백엔드가 프론트엔드로 다시 주소를 리다이렉트 시킵니다.\n   - 이때 주소창 파라미터에 JWT 토큰을 실어서 보냅니다.\n   - 형식: `http://localhost:3000/oauth/redirect?token=eyJhbGciOi...`\n   - 프론트엔드는 이 주소창에서 `token` 값을 파싱해서 로컬 스토리지에 저장한 뒤 사용하세요.\n\n3. **인증이 필요한 API 호출 시 주의사항**\n   - `러닝 시작`, `러닝 종료` 등 유저 정보가 필요한 모든 API는 헤더에 토큰을 담아야 합니다.\n   - Header key: `Authorization` / Value: `Bearer {발급받은_JWT_토큰}`"
+      description: "### 소셜 로그인 및 인증 연동 가이드\n\n1. **구글 로그인 요청 (기능 1)**\n   - 프론트엔드에서 사용자가 구글 로그인 버튼을 누르면 다음 주소로 브라우저 창을 이동(Redirect) 시켜주세요.\n   - URL: `GET http://localhost:8080/oauth2/authorization/google`\n\n2. **로그인 성공 리다이렉트 및 JWT 발급 (기능 2)**\n   - 구글 인증이 완료되면 백엔드가 프론트엔드로 다시 주소를 리다이렉트 시킵니다.\n   - 이때 주소창 파라미터에 JWT 토큰을 실어서 보냅니다.\n   - 형식: `http://localhost:3000/oauth/redirect?token=eyJhbGciOi...`\n   - 프론트엔드는 이 주소창에서 `token` 값을 파싱해서 로컬 스토리지에 저장한 뒤 사용하세요.\n\n3. **인증이 필요한 API 호출 시 주의사항**\n   - `러닝 시작`, `러닝 종료` 등 유저 정보가 필요한 모든 API는 헤더에 토큰을 담아야 합니다.\n   - Header key: `Authorization` / Value: `Bearer {발급받은_JWT_토큰}`"
 
 gemini:
   api:

@@ -20,7 +20,7 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration-time}")
     private long expirationTime;
 
-    // 1. 진짜 JWT 토큰을 만들어주는 메서드 (기존 지희님 코드)
+    // 1. 진짜 JWT 토큰을 만들어주는 메서드
     public String createToken(String email) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + expirationTime);
@@ -34,7 +34,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // 2. [추가] 프론트엔드가 요청 헤더에 보낸 Bearer 토큰 쏙 뽑아내기
+    // 2. 프론트엔드가 요청 헤더에 보낸 Bearer 토큰 쏙 뽑아내기
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -43,7 +43,7 @@ public class JwtTokenProvider {
         return null;
     }
 
-    // 3. [추가] 토큰 복호화해서 유저 이메일 알아내기
+    // 3. 토큰 복호화해서 유저 이메일 알아내기
     public String getUserEmail(String token) {
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 

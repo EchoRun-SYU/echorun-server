@@ -33,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     User newUser = User.builder()
                             .email(email)
                             .name(name)
-                            .totalPoint(0) // 새 유저의 초기 점수는 0점!\
+                            .totalPoint(0) // 새 유저의 초기 점수는 0점
                             .build();
                     return userRepository.save(newUser);
                 });

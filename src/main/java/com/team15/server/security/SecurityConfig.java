@@ -31,12 +31,12 @@ public class SecurityConfig {
                         .frameOptions(frameOptions -> frameOptions.disable())
                 )
 
-                // 🎯 2. [여기서 API 접근 권한을 설정합니다!]
+                // 여기서 API 접근 권한을 설정
                 .authorizeHttpRequests(auth -> auth
-                        // 🔓 (A) 로그인 없이 '누구나' 접근 가능한 API 주소 설정
+                        // 로그인 없이 누구나 접근 가능한 API 주소 설정
                         .requestMatchers("/", "/auth/**").permitAll()
 
-                        // 🔒 (B) 그 외의 모든 API는 반드시 '로그인(JWT 토큰 인증)'을 해야만 접근 가능!
+                        // 그 외의 모든 API는 반드시 '로그인(JWT 토큰 인증)'을 해야만 접근 가능!
                         .anyRequest().authenticated()
                 )
 
