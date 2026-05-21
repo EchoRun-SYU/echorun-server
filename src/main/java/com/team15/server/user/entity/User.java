@@ -1,15 +1,14 @@
-package com.duyuthon.team15.server.user.entity;
+package com.team15.server.user.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@Table(name = "users") // SQL 예약어 'user'와 겹치지 않도록 테이블 이름은 users로 지정합니다.
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "users") // SQL 예약어 'user'와의 충돌을 피하기 위해 테이블명은 보통 users로 지정합니다.
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -17,18 +16,17 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String email; // 구글에서 받아올 고유 이메일 (로그인 ID 대용)
 
     @Column(nullable = false)
-    private String name;
+    private String name;  // 구글 프로필 이름
 
-    // 소셜 로그인 타입 (KAKAO, NAVER 등)
-    private String socialType;
+    // 💡 해커톤 에코런(EchoRun) 특화 서비스 필드 추가!
+    @Column(nullable = false)
+    private int totalPoint; // 유저가 플로깅해서 얻은 총 점수 (초기값 0)
 
-    @Builder
-    public User(String email, String name, String socialType) {
-        this.email = email;
-        this.name = name;
-        this.socialType = socialType;
+    // 점수 업데이트가 필요할 때 쓸 메서드
+    public void addPoints(int points) {
+        this.totalPoint += points;
     }
 }
