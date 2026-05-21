@@ -1,25 +1,22 @@
-FROM gradle:8.7-jdk21 AS build
+FROM eclipse-temurin:17-jdk-jammy AS build
 
 WORKDIR /app
 
-# 캐시 최적화
-COPY build.gradle ./
-COPY settings.gradle ./
-COPY gradle.properties ./
+COPY gradlew ./
+COPY gradle ./gradle
+RUN chmod +x gradlew
 
-# 전체 복사
-COPY . .
+COPY build.gradle settings.gradle ./
+COPY src ./src
 
-# wrapper 사용 안함
-RUN gradle clean build -x check -x test -Pproduction
+RUN ./gradlew clean bootJar -x test --no-daemon
 
-# ===== Run Stage =====
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/build/libs/app.jar app.jar
 
 EXPOSE 8080
 
-CMD ["java","-jar","app.jar"]
+CMD ["java", "-jar", "app.jar"]
