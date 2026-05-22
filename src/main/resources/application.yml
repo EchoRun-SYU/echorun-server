@@ -1,3 +1,6 @@
+server:
+  port: ${PORT:8080}
+
 spring:
     datasource:
       url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
@@ -11,6 +14,18 @@ spring:
         path: /my-db
 
     jpa:
+  datasource:
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:ecorun}
+    username: ${PGUSER:postgres}
+    password: ${PGPASSWORD:}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
       hibernate:
         ddl-auto: create
       show-sql: true
@@ -38,7 +53,6 @@ jwt:
 
 springdoc:
   swagger-ui:
-    # Swagger 접속 경로를 더 짧게 만들어줍니다. (기본값은 /swagger-ui/index.html)
     path: /swagger-ui.html
     # API가 만들어진 순서대로(컨트롤러에 적힌 순서대로) 화면에 정렬해줍니다.
     operations-sorter: alpha
