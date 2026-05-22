@@ -40,8 +40,7 @@ public class TrashController {
             String base64Image = Base64.getEncoder().encodeToString(fileContent);
 
             // 제미나이 API 엔드포인트 URL 설정
-            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiApiKey;
-
+            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + geminiApiKey;
             // 제미나이에게 내릴 프롬프트
             String prompt = "너는 플로깅 쓰레기 분리수거 전문가야. 이 사진 속 쓰레기를 분석해서 정확히 다음 JSON 형식으로만 답변해줘. 다른 말은 절대 하지마.\n" +
                     "{\n" +
@@ -89,7 +88,11 @@ public class TrashController {
                     .getString("text");
 
             // 정제 처리
-            String cleanJson = rawText.replaceAll("```json", "").replaceAll("```", "").trim();
+            String cleanJson = rawText.replaceAll("```json", "")
+                    .replaceAll("```", "")
+                    .replaceAll("\r", "")
+                    .replaceAll("\n", "")
+                    .trim();
             JSONObject resultJson = new JSONObject(cleanJson);
 
             // 결과 매핑해서 최종 DTO 리턴

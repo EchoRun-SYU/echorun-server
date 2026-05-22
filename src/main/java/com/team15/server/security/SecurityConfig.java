@@ -36,6 +36,13 @@ public class SecurityConfig {
                         // 로그인 없이 누구나 접근 가능한 API 주소 설정
                         .requestMatchers("/", "/auth/**").permitAll()
 
+//                        .requestMatchers("/trash/**").permitAll()
+//                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+//
+//                        // 임시
+//                        .requestMatchers("/runs/**").permitAll()
+//                        .requestMatchers("/trash/**").permitAll()
+
                         // 그 외의 모든 API는 반드시 '로그인(JWT 토큰 인증)'을 해야만 접근 가능!
                         .anyRequest().authenticated()
                 )

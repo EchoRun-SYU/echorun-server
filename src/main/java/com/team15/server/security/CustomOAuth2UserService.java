@@ -49,6 +49,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                     User newUser = User.builder()
                             .email(email)
                             .name(name)
+                            .nickname(name)         // 닉네임(필수): 우선 구글 프로필 이름으로 대입!
+                            .socialType("GOOGLE")
+                            .region("SEOUL")        // 지역: 랭킹 시스템이 있어서 임시 기본값 세팅!
+                            .totalPoint(0)          // 포인트(필수): 처음 가입이니 0점 시작
+                            .level(1)               // 레벨(필수): 1레벨 시작
+                            .exp(0)                 // 경험치(필수): 0부터 시작
+                            .totalDistance(0.0)     // 거리(필수): 0.0부터 시작
+                            .plogCount(0)           // 플로깅 횟수(필수): 0부터 시작
                             .build();
                     return userRepository.save(newUser);
                 });

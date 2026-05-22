@@ -24,15 +24,15 @@ spring:
           registration:
             google:
               # 구글에서 복사한 클라이언트 ID
-              client-id: YOUR_GOOGLE_CLIENT_ID
+              client-id: ${GOOGLE_CLIENT_ID}
               # 구글에서 복사한 보안 비밀번호
-              client-secret: YOUR_GOOGLE_CLIENT_SECRET
+              client-secret: ${GOOGLE_CLIENT_SECRET}
               scope:
                 - profile
                 - email
 
 jwt:
-  secret: echorunsecretkeyforenvironmentandploggingplatform2026
+  secret: ${JWT_SECRET_KEY}
   # 토큰 유효시간
   expiration-time: 604800000
 
@@ -52,4 +52,4 @@ springdoc:
 
 gemini:
   api:
-    key: "AIzaSyDuTuqVNJQyZpMasAolrideHVEzBtutiSU"
+    key: ${GEMINI_API_KEY}
