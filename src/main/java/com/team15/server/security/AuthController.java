@@ -76,7 +76,8 @@ public class AuthController {
             // 6. 결과 반환
             return ResponseEntity.ok(Map.of(
                     "token", appToken,
-                    "email", user.getEmail()
+                    "email", user.getEmail(),
+                    "userId", user.getId()
             ));
 
         } catch (Exception e) {
