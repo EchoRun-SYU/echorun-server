@@ -56,19 +56,35 @@ public class AuthController {
             GoogleIdToken.Payload payload = idToken.getPayload();
             String email = payload.getEmail();
             String name = (String) payload.get("name");
-            String nickname = request.getOrDefault("nickname", name);
+            String nicknameFromRequest = request.get("nickname");
 
-            // 4. DB 회원가입 및 조회
-            User user = userRepository.findByEmail(email)
-                    .orElseGet(() -> {
-                        User newUser = User.builder()
-                                .email(email)
-                                .name(name)
-                                .nickname(nickname)
-                                .totalPoint(0)
-                                .build();
-                        return userRepository.save(newUser);
-                    });
+            // 4. 기존 유저 조회
+            java.util.Optional<User> existingUserOpt = userRepository.findByEmail(email);
+
+            if (existingUserOpt.isEmpty()) {
+                // 신규 유저 — 닉네임 없이 호출된 경우 닉네임 설정 화면으로 유도
+                if (nicknameFromRequest == null || nicknameFromRequest.isBlank()) {
+                    return ResponseEntity.ok(Map.of("isNewUser", true));
+                }
+                // 닉네임과 함께 호출된 경우 회원가입 처리
+                User newUser = User.builder()
+                        .email(email)
+                        .name(name)
+                        .nickname(nicknameFromRequest)
+                        .totalPoint(0)
+                        .build();
+                User savedUser = userRepository.save(newUser);
+                String appToken = jwtTokenProvider.createToken(savedUser.getEmail());
+                return ResponseEntity.ok(Map.of(
+                        "token", appToken,
+                        "email", savedUser.getEmail(),
+                        "userId", savedUser.getId(),
+                        "isNewUser", true
+                ));
+            }
+
+            // 기존 유저 로그인
+            User user = existingUserOpt.get();
 
             // 5. 우리 서비스 전용 JWT 토큰 생성
             String appToken = jwtTokenProvider.createToken(user.getEmail());
@@ -77,7 +93,8 @@ public class AuthController {
             return ResponseEntity.ok(Map.of(
                     "token", appToken,
                     "email", user.getEmail(),
-                    "userId", user.getId()
+                    "userId", user.getId(),
+                    "isNewUser", false
             ));
 
         } catch (Exception e) {
