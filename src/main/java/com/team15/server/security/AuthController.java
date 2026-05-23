@@ -56,6 +56,7 @@ public class AuthController {
             GoogleIdToken.Payload payload = idToken.getPayload();
             String email = payload.getEmail();
             String name = (String) payload.get("name");
+            String nickname = request.getOrDefault("nickname", name);
 
             // 4. DB 회원가입 및 조회
             User user = userRepository.findByEmail(email)
