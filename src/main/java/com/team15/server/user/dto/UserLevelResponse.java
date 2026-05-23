@@ -25,6 +25,8 @@ public class UserLevelResponse {
 
     private int getNextLevelExp(int level) {
         int[] thresholds = {100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, Integer.MAX_VALUE};
-        return level <= thresholds.length ? thresholds[level - 1] : Integer.MAX_VALUE;
+        int index = level - 1;
+        if (index < 0) return thresholds[0];
+        return index < thresholds.length ? thresholds[index] : Integer.MAX_VALUE;
     }
 }
