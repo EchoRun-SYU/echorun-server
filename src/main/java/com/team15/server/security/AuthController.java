@@ -63,6 +63,7 @@ public class AuthController {
                         User newUser = User.builder()
                                 .email(email)
                                 .name(name)
+                                .nickname(nickname)
                                 .totalPoint(0)
                                 .build();
                         return userRepository.save(newUser);
