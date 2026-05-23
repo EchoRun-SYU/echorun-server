@@ -47,9 +47,9 @@ public class SecurityConfig {
 
                 // 여기서 API 접근 권한을 설정
                 .authorizeHttpRequests(auth -> auth
-                        // 로그인 없이 누구나 접근 가능한 API 주소 설정
-                        .requestMatchers("/", "/auth/**").permitAll()
-                        // 그 외의 모든 API는 반드시 '로그인(JWT 토큰 인증)'을 해야만 접근 가능!
+                        .requestMatchers("/", "/auth/**",
+                                "/users/**", "/runs/**", "/rankings/**",
+                                "/exp", "/trash/**").permitAll()
                         .anyRequest().authenticated()
                 )
 

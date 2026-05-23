@@ -31,9 +31,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
                 SecurityContextHolder.getContext().setAuthentication(auth);
-            } catch (Exception ignored) {
-                // 유효하지 않은 토큰은 무시하고 계속 진행
+                logger.debug("JWT 인증 성공: " + email);
+            } catch (Exception e) {
+                logger.warn("JWT 검증 실패: " + e.getMessage());
             }
+        } else {
+            logger.debug("Authorization 헤더 없음: " + request.getRequestURI());
         }
 
         filterChain.doFilter(request, response);
