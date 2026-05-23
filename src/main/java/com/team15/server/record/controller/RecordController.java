@@ -1,5 +1,6 @@
 package com.team15.server.record.controller;
 
+import com.team15.server.record.dto.RecordSummaryResponse;
 import com.team15.server.record.dto.RunEndRequest;
 import com.team15.server.record.dto.RunEndResponse;
 import com.team15.server.record.dto.RunStartResponse;
@@ -11,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,12 +42,15 @@ public class RecordController {
     @Operation(summary = "러닝 종료 API", description = "프론트엔드에서 측정한 최종 거리(km)와 시간(초)을 받아 기록을 마감합니다.")
     public ResponseEntity<RunEndResponse> endRun(
             @PathVariable Long runId,
-            @RequestBody RunEndRequest runEndRequest) { // Map 대신 정석 DTO 매핑!
+            @RequestBody RunEndRequest runEndRequest) {
 
-        // 1. 비즈니스 로직 실행
         recordService.endRun(runId, runEndRequest.getDistance(), runEndRequest.getDuration());
-
-        // 2. 정석 DTO 응답 리턴
         return ResponseEntity.ok(new RunEndResponse("러닝이 성공적으로 종료 및 기록되었습니다."));
+    }
+
+    @GetMapping
+    @Operation(summary = "내 러닝 기록 목록 조회", description = "userId로 해당 유저의 완료된 러닝 기록 목록을 조회합니다.")
+    public ResponseEntity<List<RecordSummaryResponse>> getRunList(@RequestParam Long userId) {
+        return ResponseEntity.ok(recordService.getRunList(userId));
     }
 }

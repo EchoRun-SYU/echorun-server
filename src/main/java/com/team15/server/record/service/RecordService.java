@@ -1,5 +1,6 @@
 package com.team15.server.record.service;
 
+import com.team15.server.record.dto.RecordSummaryResponse;
 import com.team15.server.record.entity.Record;
 import com.team15.server.record.repository.RecordRepository;
 import com.team15.server.user.entity.User;
@@ -7,6 +8,9 @@ import com.team15.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,17 +35,26 @@ public class RecordService {
 
     @Transactional
     public void endRun(Long runId, Double distance, Integer duration) {
-        // 1. 해당 runId로 기존 러닝 기록 조회
         Record record = recordRepository.findById(runId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 러닝 기록입니다."));
 
-        // 2. 만약 이미 종료된 러닝이라면 예외 처리
         if (record.getIsCompleted()) {
             throw new IllegalStateException("이미 종료된 러닝 기록입니다.");
         }
 
-        // 3. 더티 체킹(Dirty Checking)으로 최종 데이터 업데이트
-        // (엔티티에 업데이트용 메서드를 만들거나, 필드를 직접 수정할 수 있도록 Record.java에 Setter 또는 업데이트 메서드 추가 필요)
         record.completeRun(distance, duration);
+
+        User user = record.getUser();
+        user.addDistance(distance);
+        user.addExp((int) (distance * 20));
+        user.incrementPlogCount();
+    }
+
+    public List<RecordSummaryResponse> getRunList(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+        return recordRepository.findByUserOrderByStartTimeDesc(user).stream()
+                .map(RecordSummaryResponse::new)
+                .collect(Collectors.toList());
     }
 }
