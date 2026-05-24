@@ -1,5 +1,7 @@
 package com.team15.server.run.service;
 
+import com.team15.server.record.entity.Record;
+import com.team15.server.record.repository.RecordRepository;
 import com.team15.server.run.dto.RunResponse;
 import com.team15.server.run.dto.RunSummaryResponse;
 import com.team15.server.run.entity.Run;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class RunService {
 
     private final RunRepository runRepository;
+    private final RecordRepository recordRepository;
     private final TrashRecordRepository trashRecordRepository;
     private final UserRepository userRepository;
 
@@ -42,7 +45,7 @@ public class RunService {
 
     @Transactional
     public TrashRecordResponse saveTrash(Long runId, Long userId, TrashRecordRequest request) {
-        Run run = runRepository.findById(runId)
+        Record run = recordRepository.findById(runId)
                 .orElseThrow(() -> new IllegalArgumentException("러닝 기록을 찾을 수 없습니다."));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));

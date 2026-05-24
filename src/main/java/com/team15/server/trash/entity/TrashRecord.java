@@ -1,6 +1,6 @@
 package com.team15.server.trash.entity;
 
-import com.team15.server.run.entity.Run;
+import com.team15.server.record.entity.Record;
 import com.team15.server.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +19,7 @@ public class TrashRecord {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "run_id", nullable = false)
-    private Run run;
+    private Record run;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -34,7 +34,7 @@ public class TrashRecord {
     private LocalDateTime createdAt;
 
     @Builder
-    public TrashRecord(Run run, User user, int trashCount, String photoUrl, int expGiven) {
+    public TrashRecord(Record run, User user, int trashCount, String photoUrl, int expGiven) {
         this.run = run;
         this.user = user;
         this.trashCount = trashCount;
