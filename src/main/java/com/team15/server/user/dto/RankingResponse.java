@@ -10,6 +10,7 @@ public class RankingResponse {
     private String nickname;
     private String region;
     private int level;
+    private int exp;
     private double totalDistance;
     private int plogCount;
 
@@ -19,6 +20,7 @@ public class RankingResponse {
         this.nickname = user.getNickname();
         this.region = user.getRegion();
         this.level = user.getLevel();
+        this.exp = user.getExp();
         this.totalDistance = user.getTotalDistance();
         this.plogCount = user.getPlogCount();
     }
