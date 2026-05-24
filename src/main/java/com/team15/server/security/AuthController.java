@@ -72,6 +72,11 @@ public class AuthController {
                         .name(name)
                         .nickname(nicknameFromRequest)
                         .totalPoint(0)
+                        .region("SEOUL")
+                        .level(1)
+                        .exp(0)
+                        .totalDistance(0.0)
+                        .plogCount(0)
                         .build();
                 User savedUser = userRepository.save(newUser);
                 String appToken = jwtTokenProvider.createToken(savedUser.getEmail());
