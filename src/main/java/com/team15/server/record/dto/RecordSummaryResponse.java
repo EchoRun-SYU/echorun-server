@@ -1,5 +1,6 @@
 package com.team15.server.record.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.team15.server.record.entity.Record;
 import lombok.Getter;
 
@@ -11,6 +12,7 @@ public class RecordSummaryResponse {
     private double distance;
     private int duration;
     private LocalDateTime startTime;
+    @JsonProperty("isCompleted")
     private boolean isCompleted;
     private String routeJson;
 
