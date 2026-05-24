@@ -19,9 +19,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RecordService {
 
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     private final RecordRepository recordRepository;
     private final UserRepository userRepository;
-    private final ObjectMapper objectMapper;
 
     @Transactional
     public Long startRun(String email) {
