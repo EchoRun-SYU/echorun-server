@@ -44,7 +44,7 @@ public class RecordController {
             @PathVariable Long runId,
             @RequestBody RunEndRequest runEndRequest) {
 
-        recordService.endRun(runId, runEndRequest.getDistance(), runEndRequest.getDuration());
+        recordService.endRun(runId, runEndRequest.getDistance(), runEndRequest.getDuration(), runEndRequest.getRoute());
         return ResponseEntity.ok(new RunEndResponse("러닝이 성공적으로 종료 및 기록되었습니다."));
     }
 

@@ -12,6 +12,7 @@ public class RecordSummaryResponse {
     private int duration;
     private LocalDateTime startTime;
     private boolean isCompleted;
+    private String routeJson;
 
     public RecordSummaryResponse(Record record) {
         this.id = record.getId();
@@ -19,5 +20,6 @@ public class RecordSummaryResponse {
         this.duration = record.getDuration();
         this.startTime = record.getStartTime();
         this.isCompleted = record.getIsCompleted();
+        this.routeJson = record.getRouteJson();
     }
 }

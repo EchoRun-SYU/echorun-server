@@ -27,6 +27,9 @@ public class Record {
     private Integer duration;
     private Boolean isCompleted;
 
+    @Column(columnDefinition = "TEXT")
+    private String routeJson;
+
     // 러닝 시작 시 사용할 생성자
     public Record(User user) {
         this.user = user;
@@ -37,9 +40,10 @@ public class Record {
     }
 
     // 종료 메서드
-    public void completeRun(Double distance, Integer duration) {
+    public void completeRun(Double distance, Integer duration, String routeJson) {
         this.distance = distance;
         this.duration = duration;
+        this.routeJson = routeJson;
         this.isCompleted = true;
     }
 }

@@ -1,5 +1,7 @@
 package com.team15.server.record.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team15.server.record.dto.RecordSummaryResponse;
 import com.team15.server.record.entity.Record;
 import com.team15.server.record.repository.RecordRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +21,7 @@ public class RecordService {
 
     private final RecordRepository recordRepository;
     private final UserRepository userRepository;
+    private final ObjectMapper objectMapper;
 
     @Transactional
     public Long startRun(String email) {
@@ -34,7 +38,7 @@ public class RecordService {
     }
 
     @Transactional
-    public void endRun(Long runId, Double distance, Integer duration) {
+    public void endRun(Long runId, Double distance, Integer duration, List<Map<String, Double>> route) {
         Record record = recordRepository.findById(runId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 러닝 기록입니다."));
 
@@ -42,7 +46,16 @@ public class RecordService {
             throw new IllegalStateException("이미 종료된 러닝 기록입니다.");
         }
 
-        record.completeRun(distance, duration);
+        String routeJson = null;
+        if (route != null && !route.isEmpty()) {
+            try {
+                routeJson = objectMapper.writeValueAsString(route);
+            } catch (JsonProcessingException e) {
+                routeJson = "[]";
+            }
+        }
+
+        record.completeRun(distance, duration, routeJson);
 
         User user = record.getUser();
         user.addDistance(distance);
