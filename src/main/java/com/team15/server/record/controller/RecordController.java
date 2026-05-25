@@ -5,6 +5,7 @@ import com.team15.server.record.dto.RunEndRequest;
 import com.team15.server.record.dto.RunEndResponse;
 import com.team15.server.record.dto.RunStartResponse;
 import com.team15.server.record.service.RecordService;
+import com.team15.server.run.dto.PloggingResultResponse;
 import com.team15.server.security.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,5 +53,15 @@ public class RecordController {
     @Operation(summary = "내 러닝 기록 목록 조회", description = "userId로 해당 유저의 완료된 러닝 기록 목록을 조회합니다.")
     public ResponseEntity<List<RecordSummaryResponse>> getRunList(@RequestParam Long userId) {
         return ResponseEntity.ok(recordService.getRunList(userId));
+    }
+
+    // 컨트롤러 파일에 추가할 메서드
+
+    @Operation(summary = "플로깅 종료 후 탄소 절감 결과 상세 조회", description = "특정 runId(Record ID)를 기반으로 거리와 쓰레기 수거 데이터를 취합하여 탄소 절감량 계산 결과를 반환합니다.")
+    @GetMapping("/{runId}/result")
+    public ResponseEntity<PloggingResultResponse> getPloggingResult(@PathVariable Long runId) {
+        // 방금 RecordService에 만든 메서드 호출!
+        PloggingResultResponse response = recordService.getPloggingResult(runId);
+        return ResponseEntity.ok(response);
     }
 }
