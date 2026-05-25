@@ -42,10 +42,20 @@ public class TrashController {
             // 제미나이 API 엔드포인트 URL 설정
             String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + geminiApiKey;
             // 제미나이에게 내릴 프롬프트
-            String prompt = "너는 플로깅 쓰레기 분리수거 전문가야. 이 사진 속 쓰레기를 분석해서 정확히 다음 JSON 형식으로만 답변해줘. 다른 말은 절대 하지마.\n" +
+            String prompt = "너는 플로깅 인증 검증 AI이자 쓰레기 분리수거 전문가야. " +
+                    "사진 속 쓰레기를 분석해서 실제 플로깅 상황인지 판단해. " +
+                    "다음 조건 중 하나라도 해당하면 suspicious를 true로 판단해: " +
+                    "쓰레기가 이미 쓰레기통 안에 있음, " +
+                    "실내 환경으로 보임, " +
+                    "동일한 물체를 반복 촬영한 느낌, " +
+                    "사람이 일부러 배치한 듯 매우 부자연스러움, " +
+                    "쓰레기가 너무 깨끗하거나 새것처럼 보임. " +
+                    "반드시 아래 JSON 형식으로만 답변하고 다른 말은 절대 하지마.\n" +
                     "{\n" +
-                    "  \"trashType\": \"PLASTIC 또는 GLASS 또는 PAPER 또는 CAN 중 하나\",\n" +
+                    "  \"trashType\": \"PLASTIC 또는 GLASS 또는 PAPER 또는 CAN 또는 OTHER 중 하나\",\n" +
                     "  \"confidence\": 0.0에서 1.0 사이의 신뢰도 실수,\n" +
+                    "  \"suspicious\": true 또는 false,\n" +
+                    "  \"suspiciousReason\": \"의심 사유 한 줄\",\n" +
                     "  \"message\": \"해당 쓰레기의 올바른 분리수거 지침 1줄 요약\"\n" +
                     "}";
 
