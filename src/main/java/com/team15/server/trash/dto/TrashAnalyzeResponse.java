@@ -12,6 +12,9 @@ public class TrashAnalyzeResponse {
     @Schema(description = "인식된 쓰레기 종류", example = "PLASTIC")
     private String trashType;
 
+    @Schema(description = "인식된 쓰레기 개수", example = "3")
+    private Integer trashCount;
+
     @Schema(description = "획득한 환경 포인트", example = "50")
     private Integer pointsEarned;
 

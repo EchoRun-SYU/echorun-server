@@ -73,7 +73,12 @@ public class RecordService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
         return recordRepository.findByUserOrderByStartTimeDesc(user).stream()
-                .map(RecordSummaryResponse::new)
+                .map(record -> {
+                    int trashCount = trashRecordRepository.findByRunId(record.getId()).stream()
+                            .mapToInt(t -> t.getTrashCount())
+                            .sum();
+                    return new RecordSummaryResponse(record, trashCount);
+                })
                 .collect(Collectors.toList());
     }
 
