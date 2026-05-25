@@ -15,13 +15,15 @@ public class RecordSummaryResponse {
     @JsonProperty("isCompleted")
     private boolean isCompleted;
     private String routeJson;
+    private int trashCount;
 
-    public RecordSummaryResponse(Record record) {
+    public RecordSummaryResponse(Record record, int trashCount) {
         this.id = record.getId();
         this.distance = record.getDistance();
         this.duration = record.getDuration();
         this.startTime = record.getStartTime();
         this.isCompleted = record.getIsCompleted();
         this.routeJson = record.getRouteJson();
+        this.trashCount = trashCount;
     }
 }

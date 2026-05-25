@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team15.server.record.dto.RecordSummaryResponse;
 import com.team15.server.record.entity.Record;
 import com.team15.server.record.repository.RecordRepository;
+import com.team15.server.trash.repository.TrashRecordRepository;
 import com.team15.server.user.entity.User;
 import com.team15.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class RecordService {
 
     private final RecordRepository recordRepository;
     private final UserRepository userRepository;
+    private final TrashRecordRepository trashRecordRepository;
 
     @Transactional
     public Long startRun(String email) {
@@ -68,7 +70,12 @@ public class RecordService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
         return recordRepository.findByUserOrderByStartTimeDesc(user).stream()
-                .map(RecordSummaryResponse::new)
+                .map(record -> {
+                    int trashCount = trashRecordRepository.findByRunId(record.getId()).stream()
+                            .mapToInt(t -> t.getTrashCount())
+                            .sum();
+                    return new RecordSummaryResponse(record, trashCount);
+                })
                 .collect(Collectors.toList());
     }
 }
