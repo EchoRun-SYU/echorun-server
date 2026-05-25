@@ -53,6 +53,7 @@ public class TrashController {
                     "반드시 아래 JSON 형식으로만 답변하고 다른 말은 절대 하지마.\n" +
                     "{\n" +
                     "  \"trashType\": \"PLASTIC 또는 GLASS 또는 PAPER 또는 CAN 또는 OTHER 중 하나\",\n" +
+                    "  \"trashCount\": 사진 속 쓰레기 개수 정수,\n" +
                     "  \"confidence\": 0.0에서 1.0 사이의 신뢰도 실수,\n" +
                     "  \"suspicious\": true 또는 false,\n" +
                     "  \"suspiciousReason\": \"의심 사유 한 줄\",\n" +
@@ -106,8 +107,10 @@ public class TrashController {
             JSONObject resultJson = new JSONObject(cleanJson);
 
             // 결과 매핑해서 최종 DTO 리턴
+            int trashCount = resultJson.optInt("trashCount", 1);
             TrashAnalyzeResponse response = new TrashAnalyzeResponse(
                     resultJson.getString("trashType"),
+                    trashCount,
                     50, // 포인트는 우리 서버 기준 고정 50점 지급
                     resultJson.getDouble("confidence"),
                     resultJson.getString("message")
