@@ -14,6 +14,11 @@ public class RunController {
 
     private final RunService runService;
 
+    @GetMapping("/runs")
+    public ResponseEntity<List<RunSummaryResponse>> getRunList(@RequestParam Long userId) {
+        return ResponseEntity.ok(runService.getRunList(userId));
+    }
+
     @GetMapping("/runs/{runId}")
     public ResponseEntity<RunResponse> getRun(@PathVariable Long runId) {
         return ResponseEntity.ok(runService.getRun(runId));
