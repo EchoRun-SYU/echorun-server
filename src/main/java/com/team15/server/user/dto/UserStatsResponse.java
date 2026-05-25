@@ -9,11 +9,13 @@ public class UserStatsResponse {
     private int plogCount;
     private int totalExp;
     private int level;
+    private int totalTrashCollected;
 
-    public UserStatsResponse(User user) {
+    public UserStatsResponse(User user, int totalTrashCollected) {
         this.totalDistance = user.getTotalDistance();
         this.plogCount = user.getPlogCount();
         this.totalExp = user.getExp();
         this.level = user.getLevel();
+        this.totalTrashCollected = totalTrashCollected;
     }
 }
