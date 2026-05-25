@@ -1,7 +1,9 @@
 package com.team15.server.run.controller;
 
 import com.team15.server.run.dto.RunResponse;
+import com.team15.server.run.dto.RunSummaryResponse;
 import com.team15.server.run.service.RunService;
+import java.util.List;
 import com.team15.server.trash.dto.TrashRecordRequest;
 import com.team15.server.trash.dto.TrashRecordResponse;
 import lombok.RequiredArgsConstructor;
