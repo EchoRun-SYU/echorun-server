@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,4 +19,7 @@ public class RunEndRequest {
 
     @Schema(description = "총 달린 시간 (초 단위)", example = "1200")
     private Integer duration;
+
+    @Schema(description = "GPS 경로 좌표 목록 [{\"lat\": 37.5, \"lng\": 126.9}, ...]")
+    private List<Map<String, Double>> route;
 }

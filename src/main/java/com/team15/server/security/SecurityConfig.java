@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -15,6 +17,7 @@ public class SecurityConfig {
 
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 1. 보안 검사를 아예 '우회'할 주소들 (H2, 스웨거 등)
     @Bean
@@ -30,20 +33,23 @@ public class SecurityConfig {
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.disable())
                 )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .exceptionHandling(e -> e
+                        .authenticationEntryPoint((request, response, ex) ->
+                                response.sendError(
+                                        jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED,
+                                        "Unauthorized"
+                                )
+                        )
+                )
 
                 // 여기서 API 접근 권한을 설정
                 .authorizeHttpRequests(auth -> auth
-                        // 로그인 없이 누구나 접근 가능한 API 주소 설정
-                        .requestMatchers("/", "/auth/**").permitAll()
-
-//                        .requestMatchers("/trash/**").permitAll()
-//                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-//
-//                        // 임시
-//                        .requestMatchers("/runs/**").permitAll()
-//                        .requestMatchers("/trash/**").permitAll()
-
-                        // 그 외의 모든 API는 반드시 '로그인(JWT 토큰 인증)'을 해야만 접근 가능!
+                        .requestMatchers("/", "/auth/**",
+                                "/users/**", "/runs/**", "/rankings/**",
+                                "/exp", "/trash/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
@@ -52,6 +58,10 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService)
                         )
                         .successHandler(oAuth2SuccessHandler)
+                )
+                .addFilterBefore(
+                        new JwtAuthenticationFilter(jwtTokenProvider),
+                        UsernamePasswordAuthenticationFilter.class
                 );
 
         return http.build();

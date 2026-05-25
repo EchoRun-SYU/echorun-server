@@ -1,9 +1,11 @@
 package com.team15.server.record.controller;
 
+import com.team15.server.record.dto.RecordSummaryResponse;
 import com.team15.server.record.dto.RunEndRequest;
 import com.team15.server.record.dto.RunEndResponse;
 import com.team15.server.record.dto.RunStartResponse;
 import com.team15.server.record.service.RecordService;
+import com.team15.server.run.dto.PloggingResultResponse;
 import com.team15.server.security.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,12 +43,25 @@ public class RecordController {
     @Operation(summary = "러닝 종료 API", description = "프론트엔드에서 측정한 최종 거리(km)와 시간(초)을 받아 기록을 마감합니다.")
     public ResponseEntity<RunEndResponse> endRun(
             @PathVariable Long runId,
-            @RequestBody RunEndRequest runEndRequest) { // Map 대신 정석 DTO 매핑!
+            @RequestBody RunEndRequest runEndRequest) {
 
-        // 1. 비즈니스 로직 실행
-        recordService.endRun(runId, runEndRequest.getDistance(), runEndRequest.getDuration());
-
-        // 2. 정석 DTO 응답 리턴
+        recordService.endRun(runId, runEndRequest.getDistance(), runEndRequest.getDuration(), runEndRequest.getRoute());
         return ResponseEntity.ok(new RunEndResponse("러닝이 성공적으로 종료 및 기록되었습니다."));
+    }
+
+    @GetMapping
+    @Operation(summary = "내 러닝 기록 목록 조회", description = "userId로 해당 유저의 완료된 러닝 기록 목록을 조회합니다.")
+    public ResponseEntity<List<RecordSummaryResponse>> getRunList(@RequestParam Long userId) {
+        return ResponseEntity.ok(recordService.getRunList(userId));
+    }
+
+    // 컨트롤러 파일에 추가할 메서드
+
+    @Operation(summary = "플로깅 종료 후 탄소 절감 결과 상세 조회", description = "특정 runId(Record ID)를 기반으로 거리와 쓰레기 수거 데이터를 취합하여 탄소 절감량 계산 결과를 반환합니다.")
+    @GetMapping("/{runId}/result")
+    public ResponseEntity<PloggingResultResponse> getPloggingResult(@PathVariable Long runId) {
+        // 방금 RecordService에 만든 메서드 호출!
+        PloggingResultResponse response = recordService.getPloggingResult(runId);
+        return ResponseEntity.ok(response);
     }
 }

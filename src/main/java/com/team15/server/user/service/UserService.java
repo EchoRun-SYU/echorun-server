@@ -3,6 +3,7 @@ package com.team15.server.user.service;
 import com.team15.server.user.dto.*;
 import com.team15.server.user.entity.User;
 import com.team15.server.user.repository.UserRepository;
+import com.team15.server.trash.repository.TrashRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.stream.IntStream;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TrashRecordRepository trashRecordRepository;
 
     public UserProfileResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
@@ -32,7 +34,10 @@ public class UserService {
     public UserStatsResponse getStats(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
-        return new UserStatsResponse(user);
+        int totalTrashCollected = trashRecordRepository.findByUserId(userId).stream()
+                .mapToInt(t -> t.getTrashCount())
+                .sum();
+        return new UserStatsResponse(user, totalTrashCollected);
     }
 
     @Transactional
