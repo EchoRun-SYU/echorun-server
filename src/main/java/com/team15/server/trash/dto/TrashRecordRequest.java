@@ -5,5 +5,6 @@ import lombok.Getter;
 @Getter
 public class TrashRecordRequest {
     private int trashCount;
+    private String trashType;
     private String photoUrl;
 }

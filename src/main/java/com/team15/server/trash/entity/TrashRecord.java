@@ -27,6 +27,8 @@ public class TrashRecord {
 
     private int trashCount;
 
+    private String trashType;
+
     private String photoUrl;
 
     private int expGiven;
@@ -34,10 +36,11 @@ public class TrashRecord {
     private LocalDateTime createdAt;
 
     @Builder
-    public TrashRecord(Record run, User user, int trashCount, String photoUrl, int expGiven) {
+    public TrashRecord(Record run, User user, int trashCount, String trashType, String photoUrl, int expGiven) {
         this.run = run;
         this.user = user;
         this.trashCount = trashCount;
+        this.trashType = trashType;
         this.photoUrl = photoUrl;
         this.expGiven = expGiven;
         this.createdAt = LocalDateTime.now();

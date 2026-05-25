@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class TrashRecordResponse {
     private Long id;
     private int trashCount;
+    private String trashType;
     private String photoUrl;
     private int expGiven;
     private LocalDateTime createdAt;
@@ -16,6 +17,7 @@ public class TrashRecordResponse {
     public TrashRecordResponse(TrashRecord record) {
         this.id = record.getId();
         this.trashCount = record.getTrashCount();
+        this.trashType = record.getTrashType();
         this.photoUrl = record.getPhotoUrl();
         this.expGiven = record.getExpGiven();
         this.createdAt = record.getCreatedAt();

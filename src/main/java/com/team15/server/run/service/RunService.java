@@ -55,6 +55,7 @@ public class RunService {
                 .run(run)
                 .user(user)
                 .trashCount(request.getTrashCount())
+                .trashType(request.getTrashType())
                 .photoUrl(request.getPhotoUrl())
                 .expGiven(expGiven)
                 .build();
