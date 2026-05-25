@@ -1,5 +1,6 @@
 package com.team15.server.record.controller;
 
+import com.team15.server.record.dto.RecordDetailResponse;
 import com.team15.server.record.dto.RecordSummaryResponse;
 import com.team15.server.record.dto.RunEndRequest;
 import com.team15.server.record.dto.RunEndResponse;
@@ -53,6 +54,12 @@ public class RecordController {
     @Operation(summary = "내 러닝 기록 목록 조회", description = "userId로 해당 유저의 완료된 러닝 기록 목록을 조회합니다.")
     public ResponseEntity<List<RecordSummaryResponse>> getRunList(@RequestParam Long userId) {
         return ResponseEntity.ok(recordService.getRunList(userId));
+    }
+
+    @GetMapping("/{runId}")
+    @Operation(summary = "러닝 기록 상세 조회", description = "runId로 특정 러닝 기록의 상세 정보를 조회합니다.")
+    public ResponseEntity<RecordDetailResponse> getRun(@PathVariable Long runId) {
+        return ResponseEntity.ok(recordService.getRun(runId));
     }
 
     // 컨트롤러 파일에 추가할 메서드

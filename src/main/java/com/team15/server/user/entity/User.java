@@ -50,6 +50,12 @@ public class User {
         this.region = region;
     }
 
+    public void updateNickname(String nickname) {
+        if (nickname != null && !nickname.isBlank()) {
+            this.nickname = nickname;
+        }
+    }
+
     public void addExp(int amount) {
         this.exp += amount;
         this.level = calculateLevel(this.exp);

@@ -2,6 +2,7 @@ package com.team15.server.record.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team15.server.record.dto.RecordDetailResponse;
 import com.team15.server.record.dto.RecordSummaryResponse;
 import com.team15.server.record.entity.Record;
 import com.team15.server.record.repository.RecordRepository;
@@ -67,6 +68,15 @@ public class RecordService {
         user.addDistance(distance);
         user.addExp((int) (distance * 20));
         user.incrementPlogCount();
+    }
+
+    public RecordDetailResponse getRun(Long runId) {
+        Record record = recordRepository.findById(runId)
+                .orElseThrow(() -> new IllegalArgumentException("러닝 기록을 찾을 수 없습니다. ID: " + runId));
+        int trashCount = trashRecordRepository.findByRunId(runId).stream()
+                .mapToInt(t -> t.getTrashCount())
+                .sum();
+        return new RecordDetailResponse(record, trashCount);
     }
 
     public List<RecordSummaryResponse> getRunList(Long userId) {

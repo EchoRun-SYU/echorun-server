@@ -1,7 +1,9 @@
 package com.team15.server.user.controller;
 
+import com.team15.server.security.JwtTokenProvider;
 import com.team15.server.user.dto.*;
 import com.team15.server.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,15 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @PatchMapping("/users/me")
+    public ResponseEntity<UserProfileResponse> updateProfile(
+            HttpServletRequest request,
+            @RequestBody UpdateProfileRequest body) {
+        String token = jwtTokenProvider.resolveToken(request);
+        return ResponseEntity.ok(userService.updateProfile(token, body));
+    }
 
     @GetMapping("/users/me")
     public ResponseEntity<UserProfileResponse> getProfile(@RequestParam Long userId) {

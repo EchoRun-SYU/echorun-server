@@ -61,7 +61,6 @@ public class RunService {
                 .build();
 
         user.addExp(expGiven);
-        user.incrementPlogCount();
 
         return new TrashRecordResponse(trashRecordRepository.save(record));
     }

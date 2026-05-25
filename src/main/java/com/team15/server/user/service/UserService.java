@@ -4,6 +4,7 @@ import com.team15.server.user.dto.*;
 import com.team15.server.user.entity.User;
 import com.team15.server.user.repository.UserRepository;
 import com.team15.server.trash.repository.TrashRecordRepository;
+import com.team15.server.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,16 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final TrashRecordRepository trashRecordRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Transactional
+    public UserProfileResponse updateProfile(String token, UpdateProfileRequest request) {
+        String email = jwtTokenProvider.getUserEmail(token);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+        user.updateNickname(request.getNickname());
+        return new UserProfileResponse(user);
+    }
 
     public UserProfileResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
